@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.Date;
@@ -145,6 +146,41 @@ public class Alarms{
 
         mDb.execSQL("insert into alarm(hour,min,days,enabled) values("+hour+","+min+","+days+",1);");
     }
+    public static Alarms getAlarmById(String id)
+    {
+        Alarms a=null;
+        Cursor cursor;
+        cursor = mDb.rawQuery("select hour,min,days,id,enabled from alarm where id="+id, null);
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()) {
+            boolean[] bits = new boolean[7];
+            for (int i = 6; i >= 0; i--) {
+                bits[i] = (cursor.getInt(2) & (1 << i)) != 0;
+            }
+            Date curr=new Date();
+            curr.setSeconds(0);
+            curr.setMinutes(cursor.getInt(1));
+            curr.setHours(cursor.getInt(0));
+
+            a= new Alarms(curr,bits,cursor.getInt(4)==1?true:false,cursor.getInt(3));
+            cursor.moveToNext();
+        }
+        return a;
+    }
+    static void editAlarm(Alarms a,String oldId)
+    {
+        int hour=a.d.getHours();
+        int min=a.d.getMinutes();
+        int days=0;
+        for(int i=0; i<a.days.length; i++) {
+            if(a.days[i])
+                days+=Math.pow(2, i);
+        }
+
+        mDb.execSQL("update alarm set hour="+hour+",min="+min+",days="+days+",enabled=1 where id="+oldId+";");
+        refreshAlarms();
+    }
     public static void deleteAlarm(int id)//удаление будильника
     {
 
@@ -159,7 +195,7 @@ public class Alarms{
             Alarms b=new Alarms(Alarms.get(0));
             Calendar c = Calendar.getInstance();
             c.setTime(b.d);
-            int dayOfWeek = c.get(Calendar.DAY_OF_WEEK)-2;
+            int dayOfWeek = c.get(Calendar.DAY_OF_WEEK)-1;
             int r=-1;
             for(int j=0;j<7;j++)
                 if(b.days[(j+dayOfWeek)%7])
@@ -198,7 +234,7 @@ public class Alarms{
 
                 Calendar c = Calendar.getInstance();
                 c.setTime(b.d);
-                int dayOfWeek = c.get(Calendar.DAY_OF_WEEK)-2;
+                int dayOfWeek = c.get(Calendar.DAY_OF_WEEK)-1;
                 int r=-1;
                 for(int j=0;j<7;j++)
                     if(b.days[(j+dayOfWeek)%7])
@@ -237,6 +273,7 @@ public class Alarms{
         }
         return a;
     }
+
     static void refreshAlarms()//обновление будильников
     {
         Alarms=new ArrayList();
@@ -267,16 +304,22 @@ public class Alarms{
     }
     static void startNewAlarm()//запуск будильника
       {
+          //(Toast.makeText(MainActivity.ma.getApplicationContext(),"Тип будильник", Toast.LENGTH_LONG)).show();
         try {
             Alarms min = minimum();
+
             if (min != null) {
+
                 if(current!=null)
                 current.cancel();//завершение старого
-                current = new MyTimer();//создание нового
-                current.run();//запуск нового
+                current =
+                        new MyTimer();//создание нового
+                current.run();
             }
         }
-        catch (Exception e){}
+        catch (Exception e){
+            (Toast.makeText(MainActivity.ma.getApplicationContext(),"Не вышло", Toast.LENGTH_LONG)).show();
+        }
     }
 
 }

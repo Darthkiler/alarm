@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0;i<Alarms.Alarms.size();i++) {//обход списка всех будильников
             LinearLayout l=new LinearLayout(this);//создвание новой области для будильника
             TextView t=new TextView(this);//создание текстового поля бля хранения информации о будильнике
+            t.setOnClickListener(new EditAlarmOnClickListener(Alarms.Alarms.get(i).id));
             Button b=new Button(this);//созание новой кнопки для удаления
             b.setText("X");//установка текста на кнопку
             b.setOnClickListener(new DeleteRowOnClickListener(Alarms.Alarms.get(i).id));//прикрепление к кнопки лиснера для удаления из базы данных

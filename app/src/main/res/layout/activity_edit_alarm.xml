@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.darthkiler.alarm.AddAlarm">
+    tools:context="com.example.darthkiler.alarm.EditAlarm">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -104,11 +104,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="addNewAlarm"
-                android:text="Добавить"
+                android:onClick="editAlarm"
+                android:text="Изменить"
                 tools:layout_editor_absoluteY="92dp" />
         </LinearLayout>
 
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>

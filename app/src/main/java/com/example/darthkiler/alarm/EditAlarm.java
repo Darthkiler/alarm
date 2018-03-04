@@ -6,20 +6,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class AddAlarm extends AppCompatActivity {
-
+public class EditAlarm extends AppCompatActivity {
+    private String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_alarm);
+        setContentView(R.layout.activity_edit_alarm);
+        id=(getIntent().getStringExtra("id"));
         Spinner spinner = (Spinner)findViewById(R.id.spinner);
+        Alarms curr=Alarms.getAlarmById(id);
         ArrayList<String> objects=new ArrayList<>();
         for(int i=0;i<24;i++)
             objects.add(String.valueOf(i));
@@ -28,7 +28,7 @@ public class AddAlarm extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         //установка информации на спинер
-
+        spinner.setSelection(curr.d.getHours());
         spinner = (Spinner)findViewById(R.id.spinner2);
         for(int i=24;i<60;i++)
             objects.add(String.valueOf(i));
@@ -37,9 +37,12 @@ public class AddAlarm extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         //установка информации на спинер
+        spinner.setSelection(curr.d.getMinutes());
+
 
     }
-    public void addNewAlarm(View View)//добавление нового будильника
+
+    public void editAlarm(View View)//добавление нового будильника
     {
         Date curr=new Date();//новая переменная типа даты
         curr.setSeconds(0);//секунды=0
@@ -54,7 +57,7 @@ public class AddAlarm extends AppCompatActivity {
         days[5]=((CheckBox)(findViewById(R.id.checkBox2))).isChecked();
         days[6]=((CheckBox)(findViewById(R.id.checkBox))).isChecked();//отмеченность воскресенья
         Alarms newAlarm=new Alarms(curr,days);//создение нового обьекта будильник по текущей дате и выбранным дням
-        Alarms.saveAlarm(newAlarm);//сохранение в базе данных нового будильника
+        Alarms.editAlarm(newAlarm,id);//перезапись будильника
         Alarms.refreshAlarms();//обновление будильников
         Alarms.startNewAlarm();
         startActivity(new Intent(this,MainActivity.class));//создание нового главного активити
