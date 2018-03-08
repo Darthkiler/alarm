@@ -17,7 +17,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddAlarm" />
-        <activity android:name=".EditAlarm"></activity>
+        <activity android:name=".EditAlarm" />
+
+        <service
+            android:name=".AlarmService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".Alarm"></activity>
     </application>
 
 </manifest>

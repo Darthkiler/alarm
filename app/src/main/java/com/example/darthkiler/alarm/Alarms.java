@@ -95,16 +95,6 @@ public class Alarms{
         return t;
 
     }
-    /*
-    public void  run() {
-        try {
-            new Thread().wait(5000);
-            final MediaPlayer mp = MediaPlayer.create(m, R.raw.tix);
-            //(Toast.makeText(m.getApplicationContext(),"раз раз", Toast.LENGTH_LONG)).show();
-            mp.start();
-        }
-        catch (Exception e){}
-    }*/
 
     static
     {
@@ -179,52 +169,46 @@ public class Alarms{
         }
 
         mDb.execSQL("update alarm set hour="+hour+",min="+min+",days="+days+",enabled=1 where id="+oldId+";");
-        refreshAlarms();
+
     }
     public static void deleteAlarm(int id)//удаление будильника
     {
 
         mDb.execSQL("delete from alarm where id="+id+";");
-        refreshAlarms();
+
     }
-    public static Alarms minimum() throws CloneNotSupportedException//нахождение минимального времени из всех будильников
+    public static Alarms minimum() //нахождение минимального времени из всех будильников
     {
         Alarms a=null;
-        if(Alarms.size()!=0&&Alarms.get(0).isDays())
-        {
-            Alarms b=new Alarms(Alarms.get(0));
-            Calendar c = Calendar.getInstance();
-            c.setTime(b.d);
-            int dayOfWeek = c.get(Calendar.DAY_OF_WEEK)-1;
-            int r=-1;
-            for(int j=0;j<7;j++)
-                if(b.days[(j+dayOfWeek)%7])
-                {
-                    if(j==0)
-                    {
-                        if(b.d.compareTo(new Date())>0)
-                        {
-                            r=j;
+        for(int i=0;i<Alarms.size();i++) {
+            if (Alarms.get(i).isDays() && Alarms.get(i).enabled) {
+                Alarms b = new Alarms(Alarms.get(0));
+                Calendar c = Calendar.getInstance();
+                c.setTime(b.d);
+                int dayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 1;
+                int r = -1;
+                for (int j = 0; j < 7; j++)
+                    if (b.days[(j + dayOfWeek) % 7]) {
+                        if (j == 0) {
+                            if (b.d.compareTo(new Date()) > 0) {
+                                r = j;
+                                break;
+                            } else {
+                                r = -2;
+                            }
+                        } else {
+                            r = j;
                             break;
                         }
-                        else
-                        {
-                            r=-2;
-                        }
                     }
 
-                    else {
-                        r=j;
-                        break;
-                    }
-                }
 
-
-            if(r==-2)
-                b.d.setDate(b.d.getDate()+7);
-            else if(r!=-1)
-                b.d.setDate(b.d.getDate()+r);
-            a=b;
+                if (r == -2)
+                    b.d.setDate(b.d.getDate() + 7);
+                else if (r != -1)
+                    b.d.setDate(b.d.getDate() + r);
+                a = b;
+            }
         }
         for(int i=0;i<Alarms.size();i++)
         {
@@ -300,7 +284,7 @@ public class Alarms{
         if(value)
         mDb.execSQL("update alarm set enabled=1 where id="+id+";");
         else mDb.execSQL("update alarm set enabled=0 where id="+id+";");
-        refreshAlarms();
+
     }
     static void startNewAlarm()//запуск будильника
       {

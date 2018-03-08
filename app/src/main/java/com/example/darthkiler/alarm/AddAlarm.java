@@ -56,7 +56,7 @@ public class AddAlarm extends AppCompatActivity {
         Alarms newAlarm=new Alarms(curr,days);//создение нового обьекта будильник по текущей дате и выбранным дням
         Alarms.saveAlarm(newAlarm);//сохранение в базе данных нового будильника
         Alarms.refreshAlarms();//обновление будильников
-        Alarms.startNewAlarm();
+        //Alarms.startNewAlarm();
         startActivity(new Intent(this,MainActivity.class));//создание нового главного активити
         this.finish();//завершение текущего активити
 

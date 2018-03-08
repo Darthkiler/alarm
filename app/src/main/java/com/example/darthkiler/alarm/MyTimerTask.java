@@ -18,9 +18,8 @@ public class MyTimerTask extends TimerTask {
 
         final MediaPlayer mp = MediaPlayer.create(MainActivity.ma.getApplicationContext(), R.raw.tix);
         mp.start();
-
-        //Alarms.current.cancel();
-        Alarms.startNewAlarm();
+        MainActivity.ma.stopService(MainActivity.i);
+        MainActivity.ma.startService(MainActivity.i);
         m.cancel();
 
     }

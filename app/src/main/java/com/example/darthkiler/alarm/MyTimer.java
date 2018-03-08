@@ -11,7 +11,7 @@ public class MyTimer extends Timer{
 
     MyTimer()
     {
-        //super(true);
+        super(true);
     }
     public void run() {
         try {
