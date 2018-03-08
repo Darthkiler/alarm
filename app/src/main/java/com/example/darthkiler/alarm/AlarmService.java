@@ -28,10 +28,10 @@ public class AlarmService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
-        /*while(Alarms.minimum()!=null)
+        long endTime=0;//=System.currentTimeMillis()+10000;
+        while(Alarms.minimum()!=null)
         {
-            long endTime=0;
+
             try {
                 endTime = Alarms.minimum().d.getTime();
             }
@@ -45,7 +45,6 @@ public class AlarmService extends IntentService {
                         Intent dialogIntent = new Intent(this, Alarm.class);
                         dialogIntent.putExtra("time",String.valueOf(endTime));
                         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        dialogIntent.addCategory(Intent.ACTION_SCREEN_ON);
                         startActivity(dialogIntent);
                         stopSelf();
                     } catch (Exception e) {
@@ -55,7 +54,7 @@ public class AlarmService extends IntentService {
                     }
                 }
             }
-        }*/
+        }
 
     }
 

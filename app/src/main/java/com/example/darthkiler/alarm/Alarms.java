@@ -182,13 +182,13 @@ public class Alarms{
         Alarms a=null;
         for(int i=0;i<Alarms.size();i++) {
             if (Alarms.get(i).isDays() && Alarms.get(i).enabled) {
-                Alarms b = new Alarms(Alarms.get(0));
+                Alarms b = new Alarms(Alarms.get(i));
                 Calendar c = Calendar.getInstance();
                 c.setTime(b.d);
                 int dayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 1;
                 int r = -1;
                 for (int j = 0; j < 7; j++)
-                    if (b.days[(j + dayOfWeek) % 7]) {
+                    if (b.days[(j + dayOfWeek+6) % 7]) {
                         if (j == 0) {
                             if (b.d.compareTo(new Date()) > 0) {
                                 r = j;
@@ -221,7 +221,7 @@ public class Alarms{
                 int dayOfWeek = c.get(Calendar.DAY_OF_WEEK)-1;
                 int r=-1;
                 for(int j=0;j<7;j++)
-                    if(b.days[(j+dayOfWeek)%7])
+                    if(b.days[(j+dayOfWeek+6)%7])
 
                     {
 

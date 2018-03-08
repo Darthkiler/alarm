@@ -15,7 +15,7 @@ public class ChangeStateOnClickListener implements View.OnClickListener{
     public void onClick(View v)
     {
         Alarms.changeState(id,((CheckBox)v).isChecked());//изменение вкл/выкл
-        MainActivity.ma.stopService(MainActivity.i);
-        MainActivity.ma.startService(MainActivity.i);
+        //MainActivity.ma.stopService(MainActivity.i);
+        //MainActivity.ma.startService(MainActivity.i);
     }
 } 

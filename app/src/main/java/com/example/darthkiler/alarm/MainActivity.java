@@ -1,7 +1,11 @@
 package com.example.darthkiler.alarm;
 
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -9,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -22,11 +27,21 @@ public class MainActivity extends AppCompatActivity {
     static Intent i=null;
 
     @Override
+    protected void onResume()
+    {
+        super.onResume();
+        stopService(i);
+        startService(i);
+
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
         i=new Intent(this,AlarmService.class);
+        //i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         //присваивание переменной текущего активити
         ma=this;
         for(int i=0;i<Alarms.Alarms.size();i++) {//обход списка всех будильников
@@ -50,14 +65,16 @@ public class MainActivity extends AppCompatActivity {
             ((LinearLayout) findViewById(R.id.q1)).addView(l);//добавление области на экран
         }
 
+    //startService(new Intent(this,AlarmService.class));
     }
     public void goToAddAlaram(View View)//переход на добавление нового будльника
     {
+
         startActivity(new Intent(this,AddAlarm.class));//открытие нового активити для добавления
         this.finish();//закрытие текущего активити
 
     }
-    public void goToAlaram(View View)//переход на добавление нового будльника
+    /*public void goToAlaram(View View)//переход на добавление нового будльника
     {
         Intent dialogIntent = new Intent(this, Alarm.class);
         synchronized (this) {
@@ -71,5 +88,5 @@ public class MainActivity extends AppCompatActivity {
         dialogIntent.addCategory(Intent.ACTION_SCREEN_ON);
         startActivity(dialogIntent);
         this.finish();//закрытие текущего активити
-    }
+    }*/
 }

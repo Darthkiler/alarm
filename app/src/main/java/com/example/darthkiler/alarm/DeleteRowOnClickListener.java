@@ -13,7 +13,7 @@ public class DeleteRowOnClickListener implements View.OnClickListener {
     {
         ((LinearLayout)v.getParent()).setVisibility(View.GONE);
         Alarms.deleteAlarm(id);
-        MainActivity.ma.stopService(MainActivity.i);
-        MainActivity.ma.startService(MainActivity.i);
+        //MainActivity.ma.stopService(MainActivity.i);
+        //MainActivity.ma.startService(MainActivity.i);
     }
 } 
