@@ -1,6 +1,7 @@
 package com.example.darthkiler.alarm;
 
 import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.admin.DevicePolicyManager;
@@ -21,27 +22,41 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     static MainActivity ma;//обьявление статической переменной для контекста
-    static Intent i=null;
-
+    Intent i=null;
+    static PendingIntent  pendingIntent;
+    static AlarmManager alarmManager;
     @Override
     protected void onResume()
     {
         super.onResume();
-        stopService(i);
-        startService(i);
+        if(alarmManager!=null)
+            alarmManager.cancel(pendingIntent);
+        Alarms.startNewAlarm();
+
 
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        i=new Intent(this,AlarmService.class);
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        i=new Intent(this,AlarmReceiver.class);
         //i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //if(AlarmService.as==null)
+        //startService(i);
+        pendingIntent =PendingIntent.getBroadcast(MainActivity.this, 0, i, 0);
+        //Calendar calendar = Calendar.getInstance();
 
+        //calendar.setTime(Alarms.minimum().d);
+        //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+5000, pendingIntent);
+        //if(AlarmService.as!=null)
+            //AlarmService.as.reStartAlram();
         //присваивание переменной текущего активити
         ma=this;
         for(int i=0;i<Alarms.Alarms.size();i++) {//обход списка всех будильников
@@ -65,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             ((LinearLayout) findViewById(R.id.q1)).addView(l);//добавление области на экран
         }
 
-    //startService(new Intent(this,AlarmService.class));
+
     }
     public void goToAddAlaram(View View)//переход на добавление нового будльника
     {
@@ -74,19 +89,5 @@ public class MainActivity extends AppCompatActivity {
         this.finish();//закрытие текущего активити
 
     }
-    /*public void goToAlaram(View View)//переход на добавление нового будльника
-    {
-        Intent dialogIntent = new Intent(this, Alarm.class);
-        synchronized (this) {
-            try {
-                wait(5000);
-            } catch (Exception e) {
 
-            }
-        }
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        dialogIntent.addCategory(Intent.ACTION_SCREEN_ON);
-        startActivity(dialogIntent);
-        this.finish();//закрытие текущего активити
-    }*/
 }

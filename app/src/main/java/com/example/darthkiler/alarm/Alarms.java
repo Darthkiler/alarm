@@ -1,6 +1,8 @@
 package com.example.darthkiler.alarm;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -18,7 +20,8 @@ public class Alarms{
     public static String daysOfWeek[];//массив названия дней недели
     private static mDbHelper mDBHelper;//обект для работы с базой
     private static SQLiteDatabase mDb;//обьект для работы с базой
-    public static MyTimer current;//текущий будильник
+    static PendingIntent pendingIntent;
+    static AlarmManager alarmManager;
 
     int id;//ид будильника
     Date d;//дана
@@ -175,6 +178,7 @@ public class Alarms{
     {
 
         mDb.execSQL("delete from alarm where id="+id+";");
+        refreshAlarms();
 
     }
     public static Alarms minimum() //нахождение минимального времени из всех будильников
@@ -284,25 +288,29 @@ public class Alarms{
         if(value)
         mDb.execSQL("update alarm set enabled=1 where id="+id+";");
         else mDb.execSQL("update alarm set enabled=0 where id="+id+";");
+        refreshAlarms();
 
     }
     static void startNewAlarm()//запуск будильника
       {
-          //(Toast.makeText(MainActivity.ma.getApplicationContext(),"Тип будильник", Toast.LENGTH_LONG)).show();
+
         try {
             Alarms min = minimum();
 
             if (min != null) {
 
-                if(current!=null)
-                current.cancel();//завершение старого
-                current =
-                        new MyTimer();//создание нового
-                current.run();
+                //if(current!=null)
+                //current.cancel();//завершение старого
+                //current =
+                        //new MyTimer();//создание нового
+                //current.run();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(min.d);
+                MainActivity.alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), MainActivity.pendingIntent);
             }
         }
         catch (Exception e){
-            (Toast.makeText(MainActivity.ma.getApplicationContext(),"Не вышло", Toast.LENGTH_LONG)).show();
+
         }
     }
 

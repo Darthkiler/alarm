@@ -38,7 +38,13 @@ public class EditAlarm extends AppCompatActivity {
         spinner.setAdapter(adapter);
         //установка информации на спинер
         spinner.setSelection(curr.d.getMinutes());
-
+        ((CheckBox)(findViewById(R.id.checkBox7))).setChecked(curr.days[0]);
+        ((CheckBox)(findViewById(R.id.checkBox6))).setChecked(curr.days[1]);
+        ((CheckBox)(findViewById(R.id.checkBox5))).setChecked(curr.days[2]);
+        ((CheckBox)(findViewById(R.id.checkBox4))).setChecked(curr.days[3]);
+        ((CheckBox)(findViewById(R.id.checkBox3))).setChecked(curr.days[4]);
+        ((CheckBox)(findViewById(R.id.checkBox2))).setChecked(curr.days[5]);
+        ((CheckBox)(findViewById(R.id.checkBox))).setChecked(curr.days[6]);
 
     }
 

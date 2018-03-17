@@ -1,7 +1,9 @@
 package com.example.darthkiler.alarm;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class DeleteRowOnClickListener implements View.OnClickListener {
     int id;
@@ -13,7 +15,8 @@ public class DeleteRowOnClickListener implements View.OnClickListener {
     {
         ((LinearLayout)v.getParent()).setVisibility(View.GONE);
         Alarms.deleteAlarm(id);
-        //MainActivity.ma.stopService(MainActivity.i);
-        //MainActivity.ma.startService(MainActivity.i);
+        if(MainActivity.alarmManager!=null)
+            MainActivity.alarmManager.cancel(MainActivity.pendingIntent);
+        Alarms.startNewAlarm();
     }
 } 

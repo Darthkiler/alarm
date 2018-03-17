@@ -27,8 +27,7 @@ public class Alarm extends AppCompatActivity {
         setContentView(R.layout.activity_alarm);
         time=0;
         time=Long.valueOf(getIntent().getStringExtra("time"));
-        new Thread(new Tr(this)).start();
-        new Thread(new mp3(this)).start();
+
 
         Button b=new Button(this);
         b.setOnClickListener(new Lis(this));
@@ -42,6 +41,20 @@ public class Alarm extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED|
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        new Thread(new Tr(this)).start();
+        new Thread(new mp3(this)).start();
+
+    }
+
+    /*@Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }*/
 
     class Tr implements Runnable
     {
@@ -64,23 +77,28 @@ public class Alarm extends AppCompatActivity {
         }
 
     }
-    class mp3 implements Runnable
-    {
+    class mp3 implements Runnable {
         Alarm a;
-        mp3(Alarm a)
-        {
-            this.a=a;
+
+        mp3(Alarm a) {
+            this.a = a;
         }
+
         @Override
         public void run() {
-
+            synchronized (this) {
+                try {
                     final MediaPlayer mp = MediaPlayer.create(a, R.raw.tix);
-                    while(!a.isFinishing())
-                    mp.start();
+                    while (!a.isFinishing())
+                        mp.start();
+                } catch (Exception e) {
 
+                }
+
+
+            }
 
         }
-
     }
     class Lis implements  View.OnClickListener {
         Alarm a;
@@ -91,6 +109,7 @@ public class Alarm extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             a.finish();
+
         }
     }
 }

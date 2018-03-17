@@ -12,13 +12,6 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/button4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="goToAlaram"
-            android:text="Button" />
-
-        <Button
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
