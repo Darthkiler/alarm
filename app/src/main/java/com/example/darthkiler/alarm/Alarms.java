@@ -3,11 +3,11 @@ package com.example.darthkiler.alarm;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
+
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
+
 
 import java.io.IOException;
 import java.util.Date;
@@ -299,11 +299,6 @@ public class Alarms{
 
             if (min != null) {
 
-                //if(current!=null)
-                //current.cancel();//завершение старого
-                //current =
-                        //new MyTimer();//создание нового
-                //current.run();
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(min.d);
                 MainActivity.alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), MainActivity.pendingIntent);

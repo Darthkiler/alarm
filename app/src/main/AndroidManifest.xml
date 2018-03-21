@@ -18,15 +18,22 @@
         </activity>
         <activity android:name=".AddAlarm" />
         <activity android:name=".EditAlarm" />
-
-
-
         <activity android:name=".Alarm" />
 
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
+
+        <activity android:name=".Stopwatch" />
+
+        <service
+            android:name=".StopwatchService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".StopwatchIntentService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

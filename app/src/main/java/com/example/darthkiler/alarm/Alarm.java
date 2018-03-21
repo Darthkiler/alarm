@@ -25,8 +25,8 @@ public class Alarm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_alarm);
-        time=0;
-        time=Long.valueOf(getIntent().getStringExtra("time"));
+        time=System.currentTimeMillis();
+
 
 
         Button b=new Button(this);
@@ -34,6 +34,7 @@ public class Alarm extends AppCompatActivity {
         b.setText("X");
         TextView t=new TextView(this);
         t.setText(new Date(time).getHours()+" "+new Date(time).getMinutes());
+        t.setGravity(View.TEXT_ALIGNMENT_CENTER);
         ((LinearLayout) findViewById(R.id.q2)).addView(t);
         ((LinearLayout) findViewById(R.id.q2)).addView(b);
 
@@ -51,10 +52,7 @@ public class Alarm extends AppCompatActivity {
 
     }
 
-    /*@Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }*/
+
 
     class Tr implements Runnable
     {
